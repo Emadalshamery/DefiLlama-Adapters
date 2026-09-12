@@ -117,12 +117,9 @@ const configs = {
   },
   "3fmutual": {
     "ethereum": {
-      "owners": [
-        "0x66be1bc6C6aF47900BBD4F3711801bE6C2c6CB32"
-      ],
-      "tokens": [
-        ADDRESSES.null
-      ]
+      "tvl": {
+        "__empty": true
+      }
     },
   },
   "AIDApp": {
@@ -3079,7 +3076,7 @@ const configs = {
     },
   },
   "brokex": {
-    "methodology": "TVL is computed by summing the balance of USDC locked in the BrokexVault contract.",
+    "methodology": "TVL is computed by summing the balance of USDC locked in the BrokexVault contracts.",
     "start": 1780443809,
     "pharos": {
       "owner": "0x589178934112DbBa96C17384079206a21B4F20DA",
@@ -3087,6 +3084,12 @@ const configs = {
         ADDRESSES.pharos.USDC
       ]
     },
+    "base": {
+      "owner": "0xB36e1eDF743352D67E8B24C0A8BD8fc2c229EB4e",
+      "tokens": [
+        ADDRESSES.base.USDC
+      ]
+    }
   },
   "brrr": {
     "methodology": "Sum contract token balance",
@@ -10367,16 +10370,6 @@ const configs = {
       ]
     },
   },
-  "coinbase-doge": {
-    "methodology": "DOGE collateral backing CBDOGE https://www.coinbase.com/en-nl/cbdoge/proof-of-reserves",
-    "doge": {
-      "owners": [
-        "DLuceb7v8vHknepvYRTzz5bSMUAqax8vTN",
-        "DCqkF26vcqG1FGJiB7L73jyTDeFkjeEPvJ",
-        "DNhLqkURqaQDW4f4J9wxtVzRw1XxhkjZ6m"
-      ]
-    },
-  },
   "coindrip": {
     "timetravel": false,
     "elrond": {
@@ -12072,6 +12065,23 @@ const configs = {
         ]
       }
     },
+  },
+  "covenant-protocol": {
+    "methodology": "Tracks CVNT tokens in the Streamflow staking contracts.",
+    "doublecounted": true,
+    "solana": {
+      "staking": {
+        "tokenAccounts": [
+          '5Fg449W8E7EnLfC7Sgn4zCwSmFXP1YbpVEnVQ3WKEwuC',
+          '12zg2Eu2HM2X39ZCoVbQRA6t6xP3Fmz21WskfzbCCsK6',
+          '9fEQ4ow9WM4XkSZiNrEPDgy1rt73WgUJvnKsLWQR1Qus',
+          '4TtDoALukroBBRbibXknqsDkpo3ak1pN5i52LtjgmDyk',
+        ]
+      },
+      "tvl": {
+        "__empty": true
+      }
+    }
   },
   "crackandstack": {
     "methodology": "Crack & Stack TVL is the backed value of the Lanterns NFT.",
@@ -16077,6 +16087,20 @@ const configs = {
       "token": ADDRESSES.robinhood.WETH
     }
   },
+  "hrusd": {
+    "methodology": "TVL counts the USDC reserve held on-chain by the HRUSD Peg Stability Module and the USDC side of the Uniswap V3 HRUSD/USDC liquidity positions escrowed in the two V3LPStakingRewards contracts. The remainder of the HRUSD backing is custodied on a centralised exchange and is deliberately not counted here.",
+    "doublecounted": true,
+    "base": {
+      "owners": [
+        '0xe5545fd5e48425663Bf207183a868Eb0A1d2b9ee',
+        '0xb72f376ae7732a76F1C18e0547553A616a33a2bd',
+        '0xA61C08DeC414416E55de7b4510bA8Ef25C89886a'
+      ],
+      "tokens": [ADDRESSES.base.USDC],
+      "resolveUniV3": true,
+      "uniV3WhitelistedTokens": [ADDRESSES.base.USDC],
+    }
+  },
   "hskhodlium": {
     "methodology": "TVL includes all native HSK tokens staked at the main contract on HashKey Chain. Token price is derived from its Ethereum-wrapped version.",
     "hsk": {
@@ -16168,15 +16192,19 @@ const configs = {
     },
   },
   "hypersurface": {
-    "methodology": "TVL includes tokens in MarginPool, HedgedPool, and Hedger contracts. LP positions held by the Hedger are unwrapped to their underlying tokens.",
+    "methodology": "TVL includes tokens in MarginPool, HedgedPool, and Hedger contracts of every collateral pool (USDT0-collateral and USDC-collateral on HyperEVM, USDC-collateral on Base). LP positions held by the Hedger are unwrapped to their underlying tokens.",
     "hyperliquid": {
       "owners": [
         "0x7D2e4b4d7ba55C423F5CCe194ae8194eFD1C6e35",
         "0x0095aCDD705Cfcc11eAfFb6c19A28C0153ad196F",
-        "0xa8c9403BDf554C047Ad91a448DDb24208Ab5313c"
+        "0xa8c9403BDf554C047Ad91a448DDb24208Ab5313c",
+        "0x7FfD5706C916499676D707f3ec3F0c9b928E7A95",
+        "0xe0F9cA7FD12E31F5d720A93d04722d6DFbAD59e7",
+        "0x220f86b641ec63f4832CC30a663Bb26b15259Ee2"
       ],
       "tokens": [
-        ADDRESSES.corn.USDT0,
+        ADDRESSES.hyperliquid.USDT0,
+        ADDRESSES.hyperliquid.USDC,
         "0xbe6727b535545c67d5caa73dea54865b92cf7907",
         "0x9fdbda0a5e284c32744d2f17ee5c74b284993463",
         ADDRESSES.hyperliquid.WHYPE,
@@ -17294,6 +17322,17 @@ const configs = {
       ]
     },
   },
+  "levr-bet": {
+    "methodology": "TVL is the USDC held in the LevrMvpDepository vault on Monad, which backs the bankroll (counterparty pool) for Levr Bet's leveraged sports prediction markets. The protocol is currently in a pre-launch   deposit phase where USDC deposits mint $MVP at a fixed $1.00.",
+    "monad": {
+      "owners": [
+        "0x141B1d9Ebd2E21749d6425CaeBaCc9704aAb9583"
+      ],
+      "tokens": [
+        ADDRESSES.monad.USDC
+      ]
+    },
+  },
   "level-money": {
     "ethereum": {
       "tvl": {
@@ -17385,12 +17424,12 @@ const configs = {
         "0xA27EC0006e59f245217Ff08CD52A7E8b169E62D2"
       ]
     },
-    "robinhood": {
-      "owners": [
-        "0x94bAB9693Ba2f6358507eFfcbd372b0660AFfF9d"
-      ],
-      "fetchBlockscoutTokens": true
-    },
+    // "robinhood": {
+    //   "owners": [
+    //     "0x94bAB9693Ba2f6358507eFfcbd372b0660AFfF9d"
+    //   ],
+    //   "fetchCoValentTokens": true
+    // },
   },
   "lighter-rh": {
     "methodology": "Counts tokens deposited by users into the Lighter ZK rollup contract",
@@ -17398,7 +17437,7 @@ const configs = {
       "owners": [
         "0x94bAB9693Ba2f6358507eFfcbd372b0660AFfF9d"
       ],
-      "fetchBlockscoutTokens": true
+      "fetchCoValentTokens": true
     },
   },
   "linqai": {
@@ -17717,6 +17756,16 @@ const configs = {
       ]
     },
   },
+  "magpie-capital": {
+    "methodology": "TVL is the SOL lending liquidity held in Magpie's on-chain pool vaults (wSOL token accounts owned by the V1, V3 and V4 lending-pool PDAs). Collateral locked against active loans is not counted.",
+    "solana": {
+      "tokenAccounts": [
+        "5CYVDEqnLknmtyKkFEvpr5XnEJRzieXm1G5hSvYFG2Ko",
+        "s2M7st6DEepiuKhX3ouJM7mUsr8aDMJNm8UQh82KrVb",
+        "7vfpVHc2ndPYw9dToiag2ARoUZ75BjLLuzsEfSjMtD1w",
+      ],
+    }
+  },
   "mahaxyz": {
     "ethereum": {
       "pool2": {
@@ -17769,16 +17818,6 @@ const configs = {
     },
   },
   "manta-cedefi-stake": {
-    "manta": {
-      "owner": "0x1B9bcc6644CC9b5e1F89aBaAb66904F5a562d4a1",
-      "tokens": [
-        "0x1468177DbCb2a772F3d182d2F1358d442B553089",
-        "0xACCBC418a994a27a75644d8d591afC22FaBA594e",
-        "0x649d4524897cE85A864DC2a2D5A11Adb3044f44a"
-      ]
-    },
-  },
-  "manta-myield": {
     "manta": {
       "owner": "0x1B9bcc6644CC9b5e1F89aBaAb66904F5a562d4a1",
       "tokens": [
@@ -18022,10 +18061,9 @@ const configs = {
   },
   "metavault-bo": {
     "polygon": {
-      "owner": "0x6fd5b386d8bed29b3b62c0856250cdd849b3564d",
-      "tokens": [
-        ADDRESSES.polygon.USDC
-      ]
+      "tvl": {
+        "__empty": true
+      }
     },
   },
   "metera-protocol": {
@@ -20943,6 +20981,23 @@ const configs = {
       ]
     },
   },
+  "open-vecta": {
+    "methodology": "Tracks VECTA tokens in the Streamflow staking contracts.",
+    "doublecounted": true,
+    "solana": {
+      "staking": {
+        "tokenAccounts": [
+          'HB3TJsPBcSn8LJ7h3SeR2cKsZNRpZftZ1bGAto83JXsd',
+          'DWhcx3Q6fmeEFufdSyBxws9S4yk9h737x2WhkG1iLpK1',
+          '9noqjg9tLXhZd5Gvxc2MFFtoyxiNHuR1DyHog3teXsAT',
+          'EVyKtMBBdzuxcRm7z6xDncKvgRnawtbaqMjPpSpX4cVy',
+        ]
+      },
+      "tvl": {
+        "__empty": true
+      }
+    }
+  },
   "optinyan": {
     "optimism": {
       "owner": "0x6F7Fe8b33358a3F4313421186b98CA78127C6DB6",
@@ -22185,6 +22240,21 @@ const configs = {
       ],
       "token": ADDRESSES.corn.USDT0
     },
+  },
+  "perpme": {
+    "methodology": "TVL is the quote side (HYPE, USDC, USD₮0 or PURR) of the Uniswap V3 liquidity positions locked in the PerpMe locker. Every launch mints its whole supply as a single-sided PRJX position and sends the LP NFT to the locker, which has no function to decrease liquidity or move the position. PerpMe-launched coins are excluded: each one's only market is the very pool being measured. Liquidity lives in PRJX (Uniswap V3) pools, so this is flagged doublecounted.",
+    "doublecounted": true,
+    "hyperliquid": {
+      "owner": "0x07c4f2dBBfaf75afC4c947e6bFEa13fEa8Eb267F",
+      "resolveUniV3": true,
+      "uniV3WhitelistedTokens": [
+        ADDRESSES.hyperliquid.WHYPE,
+        ADDRESSES.hyperliquid.USDC,
+        ADDRESSES.hyperliquid.USDT0,
+        "0x9b498C3c8A0b8CD8BA1D9851d40D186F1872b44E"
+      ],
+      "uniV3ExtraConfig": { "nftAddress": "0xeaD19AE861c29bBb2101E834922B2FEee69B9091" }
+    }
   },
   "perpl": {
     "methodology": "TVL is the total AUSD collateral deposited in the Perpl Exchange contract.",
@@ -24623,7 +24693,7 @@ const configs = {
     },
   },
   "rubin": {
-    "methodology": "Counts USDC collateral deposited on Rubin through the ethereum and arbitrum bridges.",
+    "methodology": "Counts USDC collateral deposited on Rubin through the ethereum, arbitrum and polygon bridges.",
     "arbitrum": {
       "owner": "0x26206BFdEE32128739f08Aa12f57505A3a4CcaaF",
       "tokens": [
@@ -24634,6 +24704,12 @@ const configs = {
       "owner": "0x26206BFdEE32128739f08Aa12f57505A3a4CcaaF",
       "tokens": [
         ADDRESSES.ethereum.USDC
+      ]
+    },
+    "polygon": {
+      "owner": "0x902c48Ee25529Ac2C67F45B1Dfdf5E322798fCA2",
+      "tokens": [
+        ADDRESSES.polygon.USDC_CIRCLE
       ]
     }
   },
@@ -24719,6 +24795,16 @@ const configs = {
     "timetravel": false,
     "fuel": {
       "owner": "0x8002f2e86302ef9421558d0ae25a68cdfdbec5d27915cc2db49eded220799ecc"
+    },
+  },
+  "rwaperps-bridge": {
+    "methodology": "Amount of USDC and USDG tokens held on the RWA Perps.xyz vault address.",
+    "xlayer": {
+      "owner": "0x816f722424B49Cf1275cc86DA9840Fbd5a6167e9",
+      "tokens": [
+        "0xb6ceceab302e2e4948951ee7843fc24e92933061", // USDC
+        "0x4ae46a509F6b1D9056937BA4500cb143933D2dc8" // USDG
+      ]
     },
   },
   "rysk-v12": {
@@ -25278,41 +25364,6 @@ const configs = {
         ADDRESSES.ethereum.MKR
       ]
     },
-  },
-  "slvr": {
-    "methodology": "TVL sums the native ETH held by the SLVR game contracts on behalf of users: live round pots and carry pools plus unclaimed winner emissions (SlvrGridLottery), the accumulating jackpot (SlvrJackpot), pending veNFT staker rewards (SlvrVoteEscrowStaking), auto-commit user deposits (SlvrAutoCommit), locked winnings (SlvrClaimLocker) and undistributed growth-fund revenue (SlvrGrowthFund). Staking counts SLVR locked in game contracts and into withdrawable vote-escrow NFTs held by SlvrVoteEscrow. Pool2 counts SLVR/WETH LP staked in SlvrLiquidityStaking.",
-    "robinhood": {
-      "tvl": {
-        "owners": [
-          "0x284Eb4016305Fa7FbC162Fb68F27227271001c7f",
-          "0x24b723e2da172961f60cd6a4699654c89d4ac6cd",
-          "0xaF68598eBd245DC3cB92FF16E9Ba1814DD137200",
-          "0x314c8D5755468224AC60c36FB5494F0D7D5Abb3B",
-          "0x1399115FcF2a9C41e5080547A9214156A4Bf8a45",
-          "0x2fD3BE762eb9d8eE293dD923D8809Dbd3D653dd7",
-          "0x1a1633fdb2f19082099a6ad6c3d4f1ec6bce9729",
-        ],
-        "token": ADDRESSES.null
-      },
-      "staking": {
-        "owners": [
-          "0x284Eb4016305Fa7FbC162Fb68F27227271001c7f",
-          "0x24b723e2da172961f60cd6a4699654c89d4ac6cd",
-          "0xaF68598eBd245DC3cB92FF16E9Ba1814DD137200",
-          "0x314c8D5755468224AC60c36FB5494F0D7D5Abb3B",
-          "0x1399115FcF2a9C41e5080547A9214156A4Bf8a45",
-          "0x2fD3BE762eb9d8eE293dD923D8809Dbd3D653dd7",
-          "0x1a1633fdb2f19082099a6ad6c3d4f1ec6bce9729",
-          "0xd9b8FBD61033145c5496132153CE675756313B71"
-        ],
-        "token": "0x791229E3EbD6CFdC3D8157f48722684173C29aD9",
-      },
-      "pool2": {
-        "owner": "0x7D888f4Ca88Fc3578aEfc45C82482Bd66415DfeA",
-        "token": "0xe365b92239097Ed3322131411DbE15a5c4068eff",
-        "resolveLP": true
-      }
-    }
   },
   "snarklaunch": {
     "methodology": "TVL for SNRK staking is computed by summing the balance of SNRK tokens held by the staking contract.",
@@ -26615,23 +26666,6 @@ const configs = {
       ]
     },
   },
-  "stonkbrokers": {
-    "methodology": "TVL is the liquidity locked in the Safety Deposit Box locker (Uniswap V3 position NFTs escrowed permanently or on long vests). Staking tracks STONKBROKER tokens in the escrow contract. The previous TVL owner (StockBooster fee collector) was retired on 2026-08-04 and only holds transient fee dust between sweeps.",
-    "robinhood": {
-      "tvl": {
-        "owner": "0xFc96CF67eCC55bE4AdABc3AecBe6Ad6349f11223",
-        "resolveUniV3": true,
-        "uniV3WhitelistedTokens": [ADDRESSES.robinhood.WETH],
-        "uniV3ExtraConfig": {
-          "nftAddress": "0x73991a25C818Bf1f1128dEAaB1492D45638DE0D3"
-        }
-      },
-      "staking": {
-        "owner": "0x799AE26fA515ceF145e8bC8636F7fFF87B05Cf62",
-        "tokens": ["0xe934e36A439C94017B64a3FecE66AF12099aBF50"]
-      }
-    }
-  },
   "stormtrade": {
     "timetravel": false,
     "methodology": "Total amount of jUSDT locked in the StormTrade vault (EQDynReiCeK8xlKRbYArpp4jyzZuF6-tYfhFM0O5ulOs5H0L)",
@@ -26778,7 +26812,7 @@ const configs = {
     },
   },
   "sukukfi": {
-    "methodology": "Sums the tokens held by SukukFi\'s duPRT (investment layer) and trUST (settlement layer) vaults on Berachain. This equals duPRT\'s grossAssetBalance (idle + pending + claimable + cancelled — everything not yet invested elsewhere) plus trUST\'s totalAssets (native settlement capital plus any duPRT-invested capital, since investing moves the underlying asset into the matching trUST vault).",
+    "methodology": "Sums the tokens held by SukukFi's duPRT (investment layer) and trUST (settlement layer) vaults on Berachain. This equals duPRT's grossAssetBalance (idle + pending + claimable + cancelled — everything not yet invested elsewhere) plus trUST's totalAssets (native settlement capital plus any duPRT-invested capital, since investing moves the underlying asset into the matching trUST vault).",
     "berachain": {
       "tvl": {
         "tokensAndOwners": [
@@ -28240,13 +28274,9 @@ const configs = {
   },
   "unirouter": {
     "bsquared": {
-      "owners": [
-        "0xd5B5f1CA0fa5636ac54b0a0007BA374A1513346e",
-        "0xe677F4B6104726D76DeBc681d7a862CE269aA8F3"
-      ],
-      "tokens": [
-        ADDRESSES.null
-      ]
+      "tvl": {
+        "__empty": true
+      }
     },
   },
   "unit-btc": {
@@ -28626,110 +28656,32 @@ const configs = {
   "vanilla": {
     "ethereum": {
       "tokens": [
-        {
-          "symbol": "WBTC",
-          "address": ADDRESSES.ethereum.WBTC
-        },
-        {
-          "symbol": "UNI",
-          "address": ADDRESSES.ethereum.UNI
-        },
-        {
-          "symbol": "LINK",
-          "address": ADDRESSES.ethereum.LINK
-        },
-        {
-          "symbol": "CEL",
-          "address": "0xaaaebe6fe48e54f431b0c390cfaf0b017d09d42d"
-        },
-        {
-          "symbol": "PERP",
-          "address": "0xbc396689893d065f41bc2c6ecbee5e0085233447"
-        },
-        {
-          "symbol": "MKR",
-          "address": ADDRESSES.ethereum.MKR
-        },
-        {
-          "symbol": "SHIB",
-          "address": ADDRESSES.ethereum.INU
-        },
-        {
-          "symbol": "TRIBE",
-          "address": "0xc7283b66eb1eb5fb86327f08e1b5816b0720212b"
-        },
-        {
-          "symbol": "MATIC",
-          "address": ADDRESSES.ethereum.MATIC
-        },
-        {
-          "symbol": "WOOFY",
-          "address": "0xd0660cd418a64a1d44e9214ad8e459324d8157f1"
-        },
-        {
-          "symbol": "GTC",
-          "address": "0xde30da39c46104798bb5aa3fe8b9e0e1f348163f"
-        },
-        {
-          "symbol": "AUDIO",
-          "address": "0x18aaa7115705e8be94bffebde57af9bfc265b998"
-        },
-        {
-          "symbol": "YFI",
-          "address": ADDRESSES.ethereum.YFI
-        },
-        {
-          "symbol": "RPL",
-          "address": "0xb4efd85c19999d84251304bda99e90b92300bd93"
-        },
-        {
-          "symbol": "AAVE",
-          "address": ADDRESSES.ethereum.AAVE
-        },
-        {
-          "symbol": "DPI",
-          "address": "0x1494ca1f11d487c2bbe4543e90080aeba4ba3c2b"
-        },
-        {
-          "symbol": "QUICK",
-          "address": "0x6c28aef8977c9b773996d0e8376d2ee379446f2f"
-        },
-        {
-          "symbol": "SUSHI",
-          "address": ADDRESSES.ethereum.SUSHI
-        },
-        {
-          "symbol": "SNX",
-          "address": ADDRESSES.ethereum.SNX
-        },
-        {
-          "symbol": "HOT",
-          "address": "0x6c6ee5e31d828de241282b9606c8e98ea48526e2"
-        },
-        {
-          "symbol": "wNXM",
-          "address": "0x0d438f3b5175bebc262bf23753c1e53d03432bde"
-        },
-        {
-          "symbol": "GLM",
-          "address": "0x7dd9c5cba05e151c895fde1cf355c9a1d5da6429"
-        },
-        {
-          "symbol": "OCEAN",
-          "address": "0x967da4048cd07ab37855c090aaf366e4ce1b9f48"
-        },
-        {
-          "symbol": "BNT",
-          "address": "0x1f573d6fb3f13d689ff844b4ce37794d79a7ff1c"
-        },
-        {
-          "symbol": "COMP",
-          "address": "0xc00e94cb662c3520282e6f5717214004a7f26888"
-        },
-        {
-          "symbol": "1INCH",
-          "address": "0x111111111117dc0aa78b770fa6a738034120c302"
-        }
+        ADDRESSES.ethereum.WBTC,
+        ADDRESSES.ethereum.UNI,
+        ADDRESSES.ethereum.LINK,
+        "0xaaaebe6fe48e54f431b0c390cfaf0b017d09d42d",
+        "0xbc396689893d065f41bc2c6ecbee5e0085233447",
+        ADDRESSES.ethereum.MKR,
+        ADDRESSES.ethereum.INU,
+        "0xc7283b66eb1eb5fb86327f08e1b5816b0720212b",
+        ADDRESSES.ethereum.MATIC,
+        "0xd0660cd418a64a1d44e9214ad8e459324d8157f1",
+        "0xde30da39c46104798bb5aa3fe8b9e0e1f348163f",
+        "0x18aaa7115705e8be94bffebde57af9bfc265b998",
+        ADDRESSES.ethereum.YFI,
+        "0xb4efd85c19999d84251304bda99e90b92300bd93",
+        ADDRESSES.ethereum.AAVE,
+        "0x1494ca1f11d487c2bbe4543e90080aeba4ba3c2b",
+        "0x6c28aef8977c9b773996d0e8376d2ee379446f2f",
+        ADDRESSES.ethereum.SUSHI,
+        ADDRESSES.ethereum.SNX,
+        "0x6c6ee5e31d828de241282b9606c8e98ea48526e2",
+        "0x0d438f3b5175bebc262bf23753c1e53d03432bde",
+        "0x7dd9c5cba05e151c895fde1cf355c9a1d5da6429",
+        "0x967da4048cd07ab37855c090aaf366e4ce1b9f48",
+        "0x1f573d6fb3f13d689ff844b4ce37794d79a7ff1c",
+        "0xc00e94cb662c3520282e6f5717214004a7f26888",
+        "0x111111111117dc0aa78b770fa6a738034120c302",
       ],
       "owner": "0x72C8B3aA6eD2fF68022691ecD21AEb1517CfAEa6"
     },
@@ -41059,6 +41011,23 @@ const configs = {
       ]
     },
   },
+  "xona-agent": {
+    "methodology": "Tracks XONA tokens in the Streamflow staking contracts.",
+    "doublecounted": true,
+    "solana": {
+      "staking": {
+        "tokenAccounts": [
+          'Ci3CwCoZoSuKAD1h7AcfnnSR32gE5rBw1jgysGpqXZAv',
+          'EJU9GprW3U4DpxzhEKNtSnBK4gsGCg7RD9sdH8Nej8Kh',
+          'FatAxEievkavRn7EEuyLkgk6NMEUFpigRxpeyHatYyMD',
+          '9xRfz54N76qfRGcyBk8ZBvKbbD6pYs9dXfUPvM8CgDms',
+        ] 
+      },
+      "tvl": {
+        "__empty": true
+      }
+    }
+  },
   "xora": {
     "methodology": "Sums the XRP balance held in the XORA treasury account rhbErkS2d4H82tRbdGyFkhhc4LNtjKaC3o on the XRP Ledger. The treasury is a single shared custody wallet; user deposits route to it via destination tags. Per-user accounting is internal to XORA; the on-chain balance is the canonical TVL.",
     "start": 1772841600,
@@ -41635,13 +41604,15 @@ const configs = {
   },
   "yieldcore": {
     "start": "2026-02-06",
-    "methodology": "TVL is calculated as the total USDT deposited by users into YieldCore bonds. Funds may sit in the main YieldCore contract or be temporarily deployed in a Krystal vault to generate yield for bondholders. Both balances are summed to reflect true TVL.",
+    "methodology": "TVL is calculated as the total USDT deposited by users into YieldCore bonds & Krystal vault",
     "bsc": {
       "tokens": [
         ADDRESSES.bsc.USDT
       ],
       "owners": [
         "0x2375Fcc2a256425228aA94d7100093230761639e",
+        "0x6D6CDf89Cc565A04f0Ba99A1Dc13d43d0d005E4E", // v4.3.1
+        "0x903407687486b3ae60746622D06b2eD3D75EaCAb", // v4.3.2
         "0xeE9dd48b2Aa7Ab67534c6Da5E1cD261263d46ef7"
       ]
     },
@@ -41831,6 +41802,42 @@ const configs = {
           "4Ym9uvwrwdpiTKq874T8wSqzaFkh8AVazf255FKLt9MR"
         ]
       }
+    },
+  },
+  "zerc20": {
+    "methodology": "TVL is the underlying ETH, USDC, BNB and JPYC held by the zERC20 LiquidityManager contracts, which custody the assets users deposit when wrapping into zETH, zUSDC, zBNB and zJPYC.",
+    "ethereum": {
+      "tokensAndOwners": [
+        [ADDRESSES.null, "0xcc10b7098fef1ab2f0ff3be91d2a7b3230b90cf0"], // zETH LM
+        [ADDRESSES.ethereum.USDC, "0x04be137df79be7b5f3314c4a84d1c5e0d99bd477"], // zUSDC LM
+      ],
+    },
+    "arbitrum": {
+      "tokensAndOwners": [
+        [ADDRESSES.null, "0xcc10b7098fef1ab2f0ff3be91d2a7b3230b90cf0"], // zETH LM
+        [ADDRESSES.arbitrum.USDC_CIRCLE, "0x04be137df79be7b5f3314c4a84d1c5e0d99bd477"], // zUSDC LM
+      ],
+    },
+    "base": {
+      "tokensAndOwners": [
+        [ADDRESSES.null, "0xcc10b7098fef1ab2f0ff3be91d2a7b3230b90cf0"], // zETH LM
+        [ADDRESSES.base.USDC, "0x04be137df79be7b5f3314c4a84d1c5e0d99bd477"], // zUSDC LM
+      ],
+    },
+    "bsc": {
+      "tokensAndOwners": [
+        [ADDRESSES.null, "0x39cc069df606c7bc8c79b0add0696bcaf548efd9"], // zBNB LM
+      ],
+    },
+    "polygon": {
+      "tokensAndOwners": [
+        ["0xe7c3d8c9a439fede00d2600032d5db0be71c3c29", "0x12609c3a7a1a212953417c90472cdcf034965a1c"], // JPYC in zJPYC LM
+      ],
+    },
+    "klaytn": {
+      "tokensAndOwners": [
+        ["0xe7c3d8c9a439fede00d2600032d5db0be71c3c29", "0x12609c3a7a1a212953417c90472cdcf034965a1c"], // JPYC in zJPYC LM (Kaia)
+      ],
     },
   },
   "zkasino": {
@@ -42113,4 +42120,6 @@ for (const [name, cfg] of Object.entries(configs)) {
   }
   allProtocols[name] = out
 }
+// expose the configs for the duplicate-owner checker
+Object.defineProperty(allProtocols, '_rawConfigs', { value: configs, enumerable: false })
 module.exports = allProtocols
